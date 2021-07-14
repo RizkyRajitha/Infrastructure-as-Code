@@ -1,0 +1,67 @@
+- become: yes
+  hosts: all
+  name: docker-install
+  tasks:
+    - name: Add the user 'ansibleuser' and add it to 'sudo'
+      user:
+        name: ansibleuser
+        group: sudo
+    # - name: Add SSH key to 'sammy'
+    #   authorized_key:
+    #     user: ubuntu
+    #     state: present
+    #     key: "{{ lookup('file', awseducateiacdemo) }}"
+    - name: Update all packages
+      apt:
+        upgrade: dist
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install a list of packages for docker
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+
+    - name: docker gpg setup
+      shell: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -"
+
+    - name: add apt repository
+      shell: 'add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"'
+
+    - name: Update repositories cache
+      apt:
+        update_cache: yes
+
+    - name: Install docker-ce
+      apt:
+        name: docker-ce
+
+    - name: add ubuntu to docker
+      user:
+        name: ubuntu
+        group: docker
+
+    - name: add ansibleuser to docker
+      user:
+        name: ansibleuser
+        group: docker
+
+    - name: install docker-compose
+      shell: 'curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose'
+
+    - name: make docker-compose executable
+      shell: "chmod +x /usr/local/bin/docker-compose"
+
+    # - name: Install apache2
+    #   apt: name=apache2 update_cache=yes state=latest
+    # - name: Enable mod_rewrite
+    #   apache2_module: name=rewrite state=present
+    #   notify:
+    #     - Restart apache2
+
+  # handlers:
+  #   - name: Restart apache2
+  #     service: name=apache2 state=restarted
