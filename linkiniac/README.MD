@@ -13,6 +13,7 @@ terraform will create
    2. egress
       1. expose anywhere
 
+`terraform apply`
 #### ansible
 
 ansible will set up docker and docker compose in the provisioned ec2 instance.
@@ -20,3 +21,5 @@ ansible will set up docker and docker compose in the provisioned ec2 instance.
 clone the linkin repository via github.
 
 run linkin app via docker compose
+
+`ansible-playbook docker-install.yml  -i hosts -l [ip]  -u [username] --private-key [key.pem]`

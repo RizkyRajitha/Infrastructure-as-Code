@@ -6,11 +6,7 @@
       user:
         name: ansibleuser
         group: sudo
-    # - name: Add SSH key to 'sammy'
-    #   authorized_key:
-    #     user: ubuntu
-    #     state: present
-    #     key: "{{ lookup('file', awseducateiacdemo) }}"
+
     - name: Update all packages
       apt:
         upgrade: dist
@@ -26,10 +22,15 @@
           - software-properties-common
 
     - name: docker gpg setup
-      shell: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -"
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
 
-    - name: add apt repository
-      shell: 'add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"'
+    - name: add docker apt repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        update_cache: yes
+        state: present
 
     - name: Update repositories cache
       apt:
@@ -49,19 +50,23 @@
         name: ansibleuser
         group: docker
 
+    - name: get platform
+      shell: "uname -s"
+      args:
+        executable: /bin/bash
+      register: platform
+
+    - name: get architecture
+      shell: "uname -m"
+      args:
+        executable: /bin/bash
+      register: arch
+
     - name: install docker-compose
-      shell: 'curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose'
+      # remote_user: ubuntu
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.27.4/docker-compose-{{platform.stdout}}-{{arch.stdout}}
+        dest: /usr/local/bin/docker-compose
+        mode: "u+x,g+x"
 
-    - name: make docker-compose executable
-      shell: "chmod +x /usr/local/bin/docker-compose"
 
-    # - name: Install apache2
-    #   apt: name=apache2 update_cache=yes state=latest
-    # - name: Enable mod_rewrite
-    #   apache2_module: name=rewrite state=present
-    #   notify:
-    #     - Restart apache2
-
-  # handlers:
-  #   - name: Restart apache2
-  #     service: name=apache2 state=restarted

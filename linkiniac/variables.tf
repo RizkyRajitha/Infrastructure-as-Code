@@ -5,7 +5,9 @@ variable "instance_name" {
 }
 
 variable "az" {
-  description = "az of the resources"
+  description = "availability zone of the resources"
   type        = string
   default     = "us-east-1a"
 }
+
+

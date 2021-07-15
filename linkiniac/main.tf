@@ -75,8 +75,11 @@ resource "aws_instance" "iacdemoec2" {
     }
   }
 
-  #   security_groups = ["awseducateicademo"]
 
+}
+
+output "instance_ip_addr" {
+  value = aws_instance.iacdemoec2.public_ip
 }
 
 # resource "aws_ebs_volume" "iacdemoebs" {
