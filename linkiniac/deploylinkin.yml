@@ -2,10 +2,10 @@
   hosts: all
   name: deploy linkin
   tasks:
-    # - name: Clone linkin
-    #   git:
-    #     repo: https://github.com/RizkyRajitha/linkin.git
-    #     dest: /home/linkin
+    - name: Clone linkin
+      git:
+        repo: https://github.com/RizkyRajitha/linkin.git
+        dest: /home/linkin
 
     - name: docker compose up
       shell:
