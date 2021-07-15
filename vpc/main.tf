@@ -1,70 +1,50 @@
-terraform {
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.27"
-    }
-  }
-
-  required_version = ">= 0.14.9"
-
+resource "aws_vpc" "vpcawseducateiacdemo" {
+ cidr_block       = "10.0.0.0/16"
+ tags = {
+   "Name" = "vpcawseducateiacdemo"
+ }
 }
 
-provider "aws" {
-
-  profile = "default"
-  region  = "us-east-1"
-
+resource "aws_subnet" "publicsubnetawseducateiacdemo" {
+  vpc_id = aws_vpc.vpcawseducateiacdemo.id
+  cidr_block = "10.0.1.0/24"
 }
 
-resource "aws_security_group" "awseducateicademosg" {
-  name = "awseducateicademosg"
-  ingress {
-    description      = "http"
-    from_port        = 80
-    to_port          = 80
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  ingress {
-    description      = "http"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  ingress {
-    description      = "http"
-    from_port        = 3000
-    to_port          = 3000
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  egress {
-    from_port = 0
-    to_port   = 0
-    protocol  = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
+resource "aws_subnet" "privatesubnetawseducateiacdemo" {
+  vpc_id = aws_vpc.vpcawseducateiacdemo.id
+  cidr_block = "10.0.2.0/24"
 }
 
-resource "aws_instance" "iacdemoec2" {
+resource "aws_internet_gateway" "igwawseducatedemoiac" {
+  vpc_id = aws_vpc.vpcawseducateiacdemo.id
+  tags = {
+    "Name" = "igwawseducatedemoiac"
+  }
+}
 
-  availability_zone = var.az
+resource "aws_route_table" "crtawseducatedemoiac" {
+  vpc_id = aws_vpc.vpcawseducateiacdemo.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igwawseducatedemoiac.id
+
+  } 
+
+tags = {
+  "Name" = "croutetableawseducatedemoiac"
+}
+}
+
+
+resource "aws_instance" "ec2privateawseducateiacdemo" {
+
+  # availability_zone = var.az
   ami               = "ami-09e67e426f25ce0d7" # ubuntu 20 image
   instance_type     = "t2.micro"
-  tags              = { Name = var.instance_name }
+  tags              = { Name = var.private_instance_name }
   key_name          = "awseducateiacdemo"
-  security_groups = [ aws_security_group.awseducateicademosg.name]
+  # security_groups = [ aws_security_group.awseducateicademosg.name]
+  subnet_id = aws_subnet.privatesubnetawseducateiacdemo.id
 
   root_block_device {
     volume_size           = 10
@@ -75,10 +55,36 @@ resource "aws_instance" "iacdemoec2" {
     }
   }
 
-  #   security_groups = ["awseducateicademo"]
+}
+
+resource "aws_instance" "ec2publicawseducateiacdemo" {
+
+  # availability_zone = var.az
+  ami               = "ami-09e67e426f25ce0d7" # ubuntu 20 image
+  instance_type     = "t2.micro"
+  tags              = { Name = var.public_instance_name }
+  key_name          = "awseducateiacdemo"
+  # security_groups = [ aws_security_group.awseducateicademosg.name]
+  subnet_id = aws_subnet.publicsubnetawseducateiacdemo.id
+
+  root_block_device {
+    volume_size           = 10
+    delete_on_termination = true
+    volume_type           = "gp2"
+    tags = {
+      Name = "iacdemorootebs"
+    }
+  }
 
 }
 
+output "public_instance_ip_addr" {
+  value = aws_instance.ec2publicawseducateiacdemo.public_ip
+}
+
+output "private_instance_ip_addr" {
+  value = aws_instance.ec2privateawseducateiacdemo.private_ip
+}
 # resource "aws_ebs_volume" "iacdemoebs" {
 #   availability_zone = var.az
 #   size              = 8
