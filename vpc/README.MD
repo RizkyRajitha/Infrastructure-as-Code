@@ -32,6 +32,7 @@ terraform will create
 
 `terraform apply`
 
+![diagram](diagram.png)
 <!-- #### ansible
 
 ansible will set up docker and docker compose in the provisioned ec2 instance.
