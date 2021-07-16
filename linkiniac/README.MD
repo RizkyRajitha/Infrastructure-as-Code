@@ -18,13 +18,14 @@ terraform will create
 #### ansible
 
 ansible will set up docker and docker compose in the provisioned ec2 instance.
+
 setup nginx as a reverse proxy.
+
 clone the linkin repository via github.
+
 run linkin app via docker compose.
 
-`ansible-playbook main.yml -v -i hosts -l [ip] -u [username] --private-key [key.pem]`
-
-
+`ansible-playbook main.yml -i hosts -l [ip] -u [username] --private-key [key.pem]`
 
 
 ![diagram](diagram.png)

@@ -8,16 +8,16 @@
   template:
     src: files/nginx.conf
     dest: /etc/nginx/sites-available/default
-  notify: Restart Nginx
+  notify: Restart Nginx handle
 
 - name: Enable new site
   file:
     src: /etc/nginx/sites-available/default
     dest: /etc/nginx/sites-enabled/default
     state: link
-  notify: Restart Nginx
+  notify: Restart Nginx handle
 
-- name: Restart Nginx
+- name: Restart Nginx no handle
   systemd:
     state: restarted
     name: nginx

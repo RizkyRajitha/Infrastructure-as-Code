@@ -1,4 +1,4 @@
-- name: Restart Nginx
+- name: Restart Nginx handle
   shell:
     cmd: "systemctl restart nginx"
   args:
