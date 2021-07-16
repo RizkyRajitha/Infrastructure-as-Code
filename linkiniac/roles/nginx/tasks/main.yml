@@ -1,0 +1,32 @@
+- name: Install nginx
+  apt:
+    name: nginx
+    state: latest
+    update_cache: yes
+
+- name: Apply Nginx template
+  template:
+    src: files/nginx.conf
+    dest: /etc/nginx/sites-available/default
+  notify: Restart Nginx
+
+- name: Enable new site
+  file:
+    src: /etc/nginx/sites-available/default
+    dest: /etc/nginx/sites-enabled/default
+    state: link
+  notify: Restart Nginx
+
+- name: Restart Nginx
+  systemd:
+    state: restarted
+    name: nginx
+    daemon_reload: yes
+
+- name: Ensure mongodb is started
+  service:
+    name: nginx
+    state: started
+  register: nginx_service_started
+
+- debug: msg="{{ nginx_service_started }}"

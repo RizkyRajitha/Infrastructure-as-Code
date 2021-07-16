@@ -1,0 +1,42 @@
+- name: get platform
+  shell: "uname -s"
+  args:
+    executable: /bin/bash
+  register: platform
+
+- name: get architecture
+  shell: "uname -m"
+  args:
+    executable: /bin/bash
+  register: arch
+
+- name: install docker-compose
+  # remote_user: ubuntu
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.27.4/docker-compose-{{platform.stdout}}-{{arch.stdout}}
+    dest: /usr/local/bin/docker-compose
+    mode: "u+x,g+x"
+
+- name: Install Docker SDK for Python
+  apt:
+    pkg:
+      - python3
+      - python3-pip
+
+- name: Update repositories cache
+  apt:
+    update_cache: yes
+
+- name: Install Docker SDK for Python
+  pip:
+    name: "docker<5"
+  become: yes
+
+- name: Install docker-compose SDK for Python
+  pip:
+    name: "docker-compose"
+  become: yes
+
+  # pip install
+# apt install python3
+

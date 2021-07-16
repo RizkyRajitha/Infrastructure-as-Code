@@ -1,0 +1,19 @@
+- name: Clone linkin
+  git:
+    repo: https://github.com/RizkyRajitha/linkin.git
+    dest: /home/linkin
+
+# - name: docker compose up
+#   shell:
+#     cmd: "docker-compose up -d"
+#     chdir: /home/linkin
+
+- name: docker compose up
+  docker_compose:
+    # cmd: "docker-compose up -d"
+    project_src: /home/linkin
+  register: output
+
+- debug: msg="{{ output }}"
+
+- meta: end_play

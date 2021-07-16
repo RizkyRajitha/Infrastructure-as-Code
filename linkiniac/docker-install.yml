@@ -21,6 +21,37 @@
           - curl
           - software-properties-common
 
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Apply Nginx template
+      template:
+        src: files/nginx.conf
+        dest: /etc/nginx/sites-available/default
+      notify: Restart Nginx
+
+    - name: Enable new site
+      file:
+        src: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+      notify: Restart Nginx
+
+    # - name: Enable new site
+    #   shell:
+    #     cmd: "cat /etc/nginx/sites-available/default"
+    #   args:
+    #     executable: /bin/bash
+
+    # - name: Enable new site
+    #   shell:
+    #     cmd: "systemctl status nginx"
+    #   args:
+    #     executable: /bin/bash
+
     - name: docker gpg setup
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
@@ -69,4 +100,23 @@
         dest: /usr/local/bin/docker-compose
         mode: "u+x,g+x"
 
+    # - name: systemctl status nginx
+    #   shell:
+    #     cmd: "systemctl status nginx"
+    #   args:
+    #     executable: /bin/bash
+
+  
+  handlers:
+    - name: Restart Nginx
+      shell:
+        cmd: "systemctl restart nginx"
+      args:
+        executable: /bin/bash
+      # service:
+      #   name: nginx
+      #   state: restarted 
+      #   systemctl restart nginx       
+
+      
 

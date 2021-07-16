@@ -9,5 +9,5 @@
 
     - name: docker compose up
       shell:
-        cmd: "docker-compose up -d "
+        cmd: "docker-compose up -d"
         chdir: /home/linkin
