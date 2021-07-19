@@ -1,17 +1,20 @@
-- name: Clone linkin
-  git:
-    repo: https://github.com/RizkyRajitha/linkin.git
-    dest: /home/linkin
+# - name: Clone linkin
+#   git:
+#     repo: https://github.com/RizkyRajitha/linkin.git
+#     dest: /home/linkin
 
-# - name: docker compose up
-#   shell:
-#     cmd: "docker-compose up -d"
-#     chdir: /home/linkin
+
+- name: Copy docker-compose.yml
+  copy:
+    src: ../../../docker-compose.yml
+    dest: /home/ubuntu
+
+
 
 - name: docker compose up
   docker_compose:
     # cmd: "docker-compose up -d"
-    project_src: /home/linkin
+    project_src: /home/ubuntu
   register: output
 
 - debug: msg="{{ output }}"
