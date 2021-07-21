@@ -1,0 +1,30 @@
+- name: download Prometheus
+  get_url:
+    url: https://github.com/prometheus/prometheus/releases/download/v2.28.1/prometheus-2.28.1.linux-amd64.tar.gz
+    dest: /tmp
+
+- name: unarchive Prometheus
+  unarchive:
+    remote_src: yes
+    src: /tmp/prometheus-2.28.1.linux-amd64.tar.gz
+    dest: /tmp
+
+- name: move node exporter to /usr/local/bin
+  copy:
+    src: /tmp/prometheus-2.28.1.linux-amd64.tar.gz
+    dest: /usr/local/bin/prometheus
+    remote_src: yes
+    # owner: root
+    # group: root
+    # mode: 0755
+- name: copy service file
+    template:
+      src: templates/prometheus.service
+      dest: /etc/systemd/system/prometheus.service
+
+- name: Restart prometheus
+  systemd:
+    state: started
+    name: prometheus.service
+    enabled: yes
+    daemon_reload: yes

@@ -2,7 +2,9 @@
   hosts: all
   name: deploy-linkin
   roles:
+    - common
     - docker
     - docker-compose
     - nginx
     - linkin
+    # - prometheus

@@ -1,0 +1,11 @@
+[Unit]
+Description=Prometheus monitoring
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/prometheus
+
+[Install]
+WantedBy=multi-user.target
