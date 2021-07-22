@@ -1,30 +1,62 @@
 - name: download Prometheus
   get_url:
     url: https://github.com/prometheus/prometheus/releases/download/v2.28.1/prometheus-2.28.1.linux-amd64.tar.gz
-    dest: /tmp
+    dest: /home/ubuntu
 
 - name: unarchive Prometheus
   unarchive:
     remote_src: yes
-    src: /tmp/prometheus-2.28.1.linux-amd64.tar.gz
-    dest: /tmp
+    src: /home/ubuntu/prometheus-2.28.1.linux-amd64.tar.gz
+    dest: /home/ubuntu
 
-- name: move node exporter to /usr/local/bin
-  copy:
-    src: /tmp/prometheus-2.28.1.linux-amd64.tar.gz
-    dest: /usr/local/bin/prometheus
+- name: download node_exporter
+  get_url:
+    url: https://github.com/prometheus/node_exporter/releases/download/v1.2.0/node_exporter-1.2.0.linux-amd64.tar.gz
+    dest: /home/ubuntu
+
+- name: unarchive node_exporter
+  unarchive:
     remote_src: yes
-    # owner: root
-    # group: root
-    # mode: 0755
-- name: copy service file
-    template:
-      src: templates/prometheus.service
-      dest: /etc/systemd/system/prometheus.service
+    src: /home/ubuntu/node_exporter-1.2.0.linux-amd64.tar.gz
+    dest: /home/ubuntu
+
+- name: copy prometheus.yml config file
+  template:
+    src: templates/prometheus.yml
+    dest: /home/ubuntu/prometheus.yml
+
+- name: copy prometheus service file
+  template:
+    src: templates/prometheus.service
+    dest: /etc/systemd/system/prometheus.service
+
+- name: copy nodeexporter service file
+  template:
+    src: templates/nodeexporter.service
+    dest: /etc/systemd/system/nodeexporter.service
+
+- name: Start prometheus
+  systemd:
+    state: started
+    name: prometheus
+    enabled: yes
+    daemon_reload: yes
+
+- name: Start nodeexporter
+  systemd:
+    state: started
+    name: nodeexporter
+    enabled: yes
+    daemon_reload: yes
 
 - name: Restart prometheus
   systemd:
-    state: started
-    name: prometheus.service
-    enabled: yes
+    state: restarted
+    name: prometheus
+    daemon_reload: yes
+
+- name: restart nodeexporter
+  systemd:
+    state: restarted
+    name: nodeexporter
     daemon_reload: yes
