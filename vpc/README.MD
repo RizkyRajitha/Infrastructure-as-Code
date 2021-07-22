@@ -45,7 +45,19 @@ terraform will create
 
 ![diagram](diagramv1.png)
 
-<!-- #### ansible
+
+#### ansible
+
+1. update all the hosts
+2. install nginx in bastion host (public)
+3. install postgres in private host
+
+`ansible-playbook main.yml -v -i hosts`
+
+ansible config is loaded from the current directory
+ssh key and bastion redirects are loaded from the ssh config and ansible config
+
+<!-- #### #### ansible-playbook
 
 ansible will set up docker and docker compose in the provisioned ec2 instance.
 
