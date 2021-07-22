@@ -29,6 +29,8 @@ run linkin app via docker compose.
 
 `ansible-playbook main.yml -i hosts -l [ip] -u [username] --private-key [key.pem]`
 
+access prometheus -  `http://[ip]/prometheus`
+
 ![diagram](diagram.png)
 
 ![diagram](prometheous.png)

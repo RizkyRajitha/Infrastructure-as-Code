@@ -6,5 +6,5 @@
     - docker
     - docker-compose
     - nginx
-    - linkin
     - prometheus
+    - linkin

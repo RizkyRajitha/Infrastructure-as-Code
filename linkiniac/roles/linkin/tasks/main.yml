@@ -6,7 +6,7 @@
 
 - name: Copy docker-compose.yml
   copy:
-    src: ../../../docker-compose.yml
+    src: templates/docker-compose.yml
     dest: /home/ubuntu
 
 

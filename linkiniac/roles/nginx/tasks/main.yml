@@ -6,7 +6,7 @@
 
 - name: Apply Nginx template
   template:
-    src: files/nginx.conf
+    src: templates/nginx.conf
     dest: /etc/nginx/sites-available/default
   notify: Restart Nginx handle
 
