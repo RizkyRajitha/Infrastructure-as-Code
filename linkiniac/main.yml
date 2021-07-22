@@ -3,8 +3,8 @@
   name: deploy-linkin
   roles:
     - common
-    # - docker
-    # - docker-compose
+    - docker
+    - docker-compose
     - nginx
-    # - linkin
+    - linkin
     - prometheus

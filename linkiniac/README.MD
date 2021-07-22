@@ -21,11 +21,14 @@ ansible will set up docker and docker compose in the provisioned ec2 instance.
 
 setup nginx as a reverse proxy.
 
+setup prometheus and node exporter
+
 clone the linkin repository via github.
 
 run linkin app via docker compose.
 
 `ansible-playbook main.yml -i hosts -l [ip] -u [username] --private-key [key.pem]`
 
-
 ![diagram](diagram.png)
+
+![diagram](prometheous.png)

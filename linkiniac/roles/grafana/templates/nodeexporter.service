@@ -1,0 +1,12 @@
+[Unit]
+Description=node exporter for node monitoring
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/sudo /home/ubuntu/node_exporter-1.2.0.linux-amd64/node_exporter
+
+
+[Install]
+WantedBy=multi-user.target

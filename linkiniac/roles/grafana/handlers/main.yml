@@ -1,0 +1,10 @@
+# - name: Restart Nginx handle
+#   shell:
+#     cmd: "systemctl restart nginx"
+#   args:
+#     executable: /bin/bash
+# # - name: Restart Nginx
+# #   systemd:
+# #     state: restarted
+# #     name: nginx
+# #     daemon_reload: yes

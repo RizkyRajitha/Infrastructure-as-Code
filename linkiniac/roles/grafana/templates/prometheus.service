@@ -1,0 +1,14 @@
+[Unit]
+Description=Prometheus monitoring
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/sudo /home/ubuntu/prometheus-2.28.1.linux-amd64/prometheus \
+                    --config.file /home/ubuntu/prometheus.yml \
+                    --web.route-prefix=/prometheus \
+                    --web.external-url=http://example.com/prometheus
+
+[Install]
+WantedBy=multi-user.target
