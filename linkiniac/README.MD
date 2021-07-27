@@ -19,18 +19,42 @@ terraform will create
 
 ansible will set up docker and docker compose in the provisioned ec2 instance.
 
-setup nginx as a reverse proxy.
+setup nginx as a reverse proxy ( proxy grafana and prometheus ).
 
 setup prometheus and node exporter
+
+setup grafana for monitoring dashboard
 
 clone the linkin repository via github.
 
 run linkin app via docker compose.
 
-`ansible-playbook main.yml -i hosts -l [ip] -u [username] --private-key [key.pem]`
+`ansible-playbook main.yml -i hosts -u [username] --private-key [key.pem]`
 
-access prometheus -  `http://[ip]/prometheus`
+access `prometheus` - `http://[ip]/prometheus`
 
-![diagram](diagram.png)
+access `grafana` - `http://[ip]/grafana` ex - `http://34.206.1.42/grafana/`
 
-![diagram](prometheous.png)
+loadtest with `ab`
+
+```bash
+ab -v 4 -n 50 -c 4 -p post -T "application/json"  http://34.201.6.138/api/login
+```
+
+loadtest with script
+
+```bash
+./loadtest.sh
+```
+
+<!-- http://34.201.6.138/prometheus/
+
+graph?g0.expr=100%20-%20rate(node_cpu_seconds_total%5B30s%5D)%20*%20100&g0.tab=0&g0.stacked=0&g0.show_exemplars=0&g0.range_input=15m&g1.expr=node_network_receive_bytes_total&g1.tab=0&g1.stacked=0&g1.show_exemplars=0&g1.range_input=1h&g2.expr=node_disk_read_bytes_total&g2.tab=0&g2.stacked=0&g2.show_exemplars=0&g2.range_input=1h&g3.expr=100%20-%20((node_filesystem_avail_bytes%7Bmountpoint%3D%22%2F%22%2Cfstype!%3D%22rootfs%22%7D%20*%20100)%20%2F%20node_filesystem_size_bytes%7Bmountpoint%3D%22%2F%22%2Cfstype!%3D%22rootfs%22%7D)&g3.tab=0&g3.stacked=0&g3.show_exemplars=0&g3.range_input=1h&g4.expr=node_network_transmit_bytes_total&g4.tab=0&g4.stacked=0&g4.show_exemplars=0&g4.range_input=1h&g5.expr=100%20*%20(1%20-%20((avg_over_time(node_memory_MemFree_bytes%5B30s%5D)%20%2B%20avg_over_time(node_memory_Cached_bytes%5B30s%5D)%20%2B%20avg_over_time(node_memory_Buffers_bytes%5B30s%5D))%20%2F%20avg_over_time(node_memory_MemTotal_bytes%5B30s%5D)))&g5.tab=0&g5.stacked=0&g5.show_exemplars=0&g5.range_input=15m
+
+-->
+
+![architecture](diagram.png)
+
+![grafana](grafana.png)
+
+![prometheous](prometheous.png)

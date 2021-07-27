@@ -7,4 +7,5 @@
     - docker-compose
     - nginx
     - prometheus
+    - grafana
     - linkin
