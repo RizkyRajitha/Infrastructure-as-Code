@@ -17,16 +17,6 @@
   apt:
     name: grafana
 
-# - name: relaod systemd demon
-#   systemd:
-#     # state: restarted
-#     # name: grafana
-#     daemon_reload: yes
-
-# domain = example.com
-# root_url = %(protocol)s://%(domain)s:%(http_port)s/grafana/
-# serve_from_sub_path = true
-
 - name: enable verbose mode
   ini_file: dest=/etc/grafana/grafana.ini section=server option=domain value=example.com backup=yes
 

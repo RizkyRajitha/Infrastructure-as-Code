@@ -11,7 +11,6 @@
   register: arch
 
 - name: install docker-compose
-  # remote_user: ubuntu
   get_url:
     url: https://github.com/docker/compose/releases/download/1.27.4/docker-compose-{{platform.stdout}}-{{arch.stdout}}
     dest: /usr/local/bin/docker-compose
@@ -37,6 +36,4 @@
     name: "docker-compose"
   become: yes
 
-  # pip install
-# apt install python3
 

@@ -41,11 +41,17 @@ loadtest with `ab`
 ab -v 4 -n 50 -c 4 -p post -T "application/json"  http://34.201.6.138/api/login
 ```
 
-loadtest with script
+loadtest with `ab script`
 
 ```bash
 ./loadtest.sh
 ```
+
+<!-- add postgres monitorung grafana
+
+add loki for logs monitoring
+
+-->
 
 <!-- http://34.201.6.138/prometheus/
 
@@ -53,8 +59,14 @@ graph?g0.expr=100%20-%20rate(node_cpu_seconds_total%5B30s%5D)%20*%20100&g0.tab=0
 
 -->
 
+#### architecture
+
 ![architecture](diagram.png)
 
+#### Grafana Dashbaord
+
 ![grafana](grafana.png)
+
+#### Prometheous Graph
 
 ![prometheous](prometheous.png)
