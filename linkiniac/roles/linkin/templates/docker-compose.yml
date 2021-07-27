@@ -4,7 +4,7 @@ services:
   linkin:
     image: ghcr.io/rizkyrajitha/linkin:latest
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       DATABASE_URL: "postgres://linkin:linkin123@db:5432/linkin"
       HASHSALT: "123" # random secret key

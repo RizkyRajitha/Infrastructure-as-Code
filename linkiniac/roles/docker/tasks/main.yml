@@ -1,11 +1,3 @@
-- name: Install a list of packages for docker
-  apt:
-    pkg:
-      - apt-transport-https
-      - ca-certificates
-      - curl
-      - software-properties-common
-
 - name: docker gpg setup
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
