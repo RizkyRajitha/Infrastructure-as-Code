@@ -9,6 +9,7 @@ ExecStart=/usr/bin/sudo /home/ubuntu/prometheus-2.28.1.linux-amd64/prometheus \
                     --config.file /home/ubuntu/prometheus.yml \
                     --web.route-prefix=/ \
                     --web.external-url=http://example.com/prometheus
+Restart=always
 
 [Install]
 WantedBy=multi-user.target

@@ -35,3 +35,11 @@ scrape_configs:
 
     static_configs:
     - targets: ['localhost:9100']
+
+  - job_name: 'postgres_exporter'
+
+  # metrics_path defaults to '/metrics'
+  # scheme defaults to 'http'.
+
+    static_configs:
+    - targets: ['localhost:9187']

@@ -6,7 +6,7 @@ After=network-online.target
 [Service]
 Type=simple
 ExecStart=/usr/bin/sudo /home/ubuntu/node_exporter-1.2.0.linux-amd64/node_exporter
-
+Restart=always
 
 [Install]
 WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+
+[Unit]
+Description=postgres exporter for monitoring
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/home/ubuntu/postgres_exporter-0.10.0.linux-amd64/postgres_exporter 
+EnvironmentFile=/home/ubuntu/postgres_exporter.env
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

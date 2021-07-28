@@ -20,6 +20,22 @@
     src: /home/ubuntu/node_exporter-1.2.0.linux-amd64.tar.gz
     dest: /home/ubuntu
 
+- name: download postgres_exporter
+  get_url:
+    url: https://github.com/prometheus-community/postgres_exporter/releases/download/v0.10.0/postgres_exporter-0.10.0.linux-amd64.tar.gz
+    dest: /home/ubuntu
+
+- name: unarchive postgres_exporter
+  unarchive:
+    remote_src: yes
+    src: /home/ubuntu/postgres_exporter-0.10.0.linux-amd64.tar.gz
+    dest: /home/ubuntu
+
+- name: copy postgres_exporter.env  file
+  template:
+    src: templates/postgres_exporter.env
+    dest: /home/ubuntu/postgres_exporter.env
+
 - name: copy prometheus.yml config file
   template:
     src: templates/prometheus.yml
@@ -34,6 +50,11 @@
   template:
     src: templates/nodeexporter.service
     dest: /etc/systemd/system/nodeexporter.service
+
+- name: copy postgresexporter service file
+  template:
+    src: templates/postgresexporter.service
+    dest: /etc/systemd/system/postgresexporter.service
 
 - name: Start prometheus
   systemd:
@@ -59,4 +80,16 @@
   systemd:
     state: restarted
     name: nodeexporter
+    daemon_reload: yes
+
+- name: Restart postgresexporter
+  systemd:
+    state: restarted
+    name: postgresexporter
+    daemon_reload: yes
+
+- name: restart postgresexporter
+  systemd:
+    state: restarted
+    name: postgresexporter
     daemon_reload: yes
