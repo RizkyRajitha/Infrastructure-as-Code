@@ -12,3 +12,4 @@
       - curl
       - software-properties-common
       - wget
+      - unzip

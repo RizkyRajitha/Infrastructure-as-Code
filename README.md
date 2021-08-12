@@ -5,7 +5,8 @@
    1. provision ec2 with terrafrom
    2. configuration management and application-deployment using ansible .
    3. monitoring instance with prometheus and grafana
-   4. deploy linkin app using docker compose
+   4. log management loki , promtail and grafana
+   5. deploy linkin app using docker compose
 
 2. VPC setup with private and public subnets [VPC](./vpc)
    1. provision 2 ec2 with terrafrom

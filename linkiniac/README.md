@@ -21,11 +21,13 @@ ansible will set up docker and docker compose in the provisioned ec2 instance.
 
 setup nginx as a reverse proxy ( proxy grafana and prometheus ).
 
-setup prometheus and node exporter
+setup prometheus and node exporter and postgreSQL exporter
 
 setup grafana for monitoring dashboard
 
-clone the linkin repository via github.
+setup log management with loki , promtail and grafana
+
+<!-- clone the linkin repository via github. -->
 
 run linkin app via docker compose.
 
@@ -69,4 +71,4 @@ graph?g0.expr=100%20-%20rate(node_cpu_seconds_total%5B30s%5D)%20*%20100&g0.tab=0
 
 #### Prometheous Graph
 
-![prometheous](prometheous.png)
+![prometheus](prometheus.png)

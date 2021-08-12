@@ -1,5 +1,3 @@
-
-
 resource "aws_instance" "iacdemoec2" {
 
   availability_zone = var.az
