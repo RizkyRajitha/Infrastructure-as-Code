@@ -1,0 +1,53 @@
+- name: download loki
+  get_url:
+    url: https://github.com/grafana/loki/releases/download/v2.3.0/loki-linux-amd64.zip
+    dest: /home/ubuntu
+
+- name: unarchive loki
+  unarchive:
+    remote_src: yes
+    src: /home/ubuntu/loki-linux-amd64.zip
+    dest: /usr/local/bin
+
+- name: download promtail
+  get_url:
+    url: https://github.com/grafana/loki/releases/download/v2.3.0/promtail-linux-amd64.zip
+    dest: /home/ubuntu
+
+- name: unarchive promtail
+  unarchive:
+    remote_src: yes
+    src: /home/ubuntu/promtail-linux-amd64.zip
+    dest: /usr/local/bin
+
+- name: copy loki.yml config file
+  template:
+    src: templates/lokiconfig.yml
+    dest: /home/ubuntu/lokiconfig.yml
+
+- name: copy loki service file
+  template:
+    src: templates/loki.service
+    dest: /etc/systemd/system/loki.service
+
+- name: copy loki.yml config file
+  template:
+    src: templates/promtailconfig.yml
+    dest: /home/ubuntu/promtailconfig.yml
+
+- name: copy promtail service file
+  template:
+    src: templates/promtail.service
+    dest: /etc/systemd/system/promtail.service
+
+- name: Restart loki
+  systemd:
+    state: restarted
+    name: loki
+    daemon_reload: yes
+
+- name: Restart promtail
+  systemd:
+    state: restarted
+    name: promtail
+    daemon_reload: yes

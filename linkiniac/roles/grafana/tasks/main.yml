@@ -17,13 +17,13 @@
   apt:
     name: grafana
 
-- name: enable verbose mode
+- name: setup grafana for reverse proxy
   ini_file: dest=/etc/grafana/grafana.ini section=server option=domain value=example.com backup=yes
 
-- name: enable verbose mode
+- name: setup grafana for reverse proxy
   ini_file: dest=/etc/grafana/grafana.ini section=server option=root_url value=%(protocol)s://%(domain)s:%(http_port)s/grafana/ backup=yes
 
-- name: enable verbose mode
+- name: setup grafana for reverse proxy
   ini_file: dest=/etc/grafana/grafana.ini section=server option=serve_from_sub_path value=true backup=yes
   # tags: configuration
 

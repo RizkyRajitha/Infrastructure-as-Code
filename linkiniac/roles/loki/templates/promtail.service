@@ -1,0 +1,12 @@
+[Unit]
+Description=Prometheus monitoring
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/promtail-linux-amd64  -config.file=/home/ubuntu/promtailconfig.yml
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

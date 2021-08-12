@@ -1,0 +1,12 @@
+[Unit]
+Description=Prometheus monitoring
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/loki-linux-amd64  -config.file=/home/ubuntu/lokiconfig.yml
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

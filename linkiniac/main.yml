@@ -7,5 +7,6 @@
     - docker-compose
     - nginx
     - prometheus
+    - loki
     - grafana
     - linkin
