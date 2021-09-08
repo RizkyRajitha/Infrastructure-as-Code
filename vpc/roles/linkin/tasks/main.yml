@@ -1,0 +1,28 @@
+- name: migrate linkin database 
+  docker_container:
+    name: migrate-linkin
+    image: ghcr.io/rizkyrajitha/linkin:latest
+    command: >
+      sh -c "npm run prismamigrateprod
+      && npm run seed"
+    state: started
+    recreate: yes
+    env:
+      DATABASE_URL: "postgres://demo:123@10.0.2.73:5432/demo"
+      HASHSALT: "123"
+      NODE_ENV: "production"
+
+- name: deploy docker
+  docker_container:
+    name: linkin
+    image: ghcr.io/rizkyrajitha/linkin:latest
+    state: started
+    recreate: yes
+    ports:
+      - "3001:3000"
+    env:
+      DATABASE_URL: "postgres://demo:123@10.0.2.73:5432/demo"
+      HASHSALT: "123"
+      NODE_ENV: "production"
+
+- meta: end_play

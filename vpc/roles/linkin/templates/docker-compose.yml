@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  linkin:
+    image: ghcr.io/rizkyrajitha/linkin:latest
+    ports:
+      - "3001:3000"
+    environment:
+      DATABASE_URL: "postgres://linkin:linkin123@db:5432/linkin"
+      HASHSALT: "123" 
+      NODE_ENV: "production"
+    depends_on:
+      - db
+      - migrate
+
+
+  migrate:
+    image: ghcr.io/rizkyrajitha/linkin:latest
+    command: >
+      sh -c "npm run prismamigrateprod
+      && npm run seed"
+    environment:
+      DATABASE_URL: "postgres://linkin:linkin123@db:5432/linkin"
+      HASHSALT: "123" 
+      NODE_ENV: "production"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "linkin"
+      POSTGRES_USER: "linkin"
+      POSTGRES_PASSWORD: "linkin123"
+    volumes:
+      - linkin-data:/var/lib/postgresql/data
+volumes:
+  linkin-data:
