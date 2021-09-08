@@ -51,11 +51,28 @@ terraform will create
 1. update all the hosts
 2. install nginx in bastion host (public)
 3. install postgres in private host
+   1. install postgres using apt
+   2. configure `pg_hba.conf` file to allow connections
+   3. configure `postgresql.conf` to listen on all interfaces to be accessible by other ec2 instances
+   4. create database , database user and previleges 
+4. deploy linkin web app in docker container
+
+
 
 `ansible-playbook main.yml -v -i hosts`
 
 ansible config is loaded from the current directory
 ssh key and bastion redirects are loaded from the ssh config and ansible config
+
+
+todo : 
+   use vars for database url , names ect.
+   setup promethous nad grafana
+   setup postgres data in separate ebs
+
+<!-- install postgres on private subnet ec2 -->
+
+
 
 <!-- #### #### ansible-playbook
 

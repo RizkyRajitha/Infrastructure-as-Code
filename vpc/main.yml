@@ -1,17 +1,17 @@
 - become: yes
-  hosts: bastion
-  name: deploy-linkin
-  roles:
-    # - docker
-    # - docker-compose
-    - common
-    - nginx
-
-- become: yes
   hosts: development
-  name: deploy-linkin
+  name: setup-pg
   roles:
     # - docker
     # - docker-compose
     - common
     - postgres
+
+- become: yes
+  hosts: bastion
+  name: deploy-linkin
+  roles:
+    - common
+    - docker
+    - nginx
+    - linkin

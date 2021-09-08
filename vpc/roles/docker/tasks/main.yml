@@ -27,3 +27,17 @@
   user:
     name: ansibleuser
     group: docker
+
+- name: install pip for ansible docker
+  apt:
+    pkg:
+      - python3-pip
+
+- name: install docker python for anisble
+  pip:
+    name: "{{ item.name }}"
+    version: "{{ item.version }}"
+    state: present
+  with_items:
+    - { name: docker, version: 2.0.0 }
+    # - { name: docker-py, version: 1.10.6 }
