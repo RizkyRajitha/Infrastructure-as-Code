@@ -1,5 +1,100 @@
-- name: Install postgresql
+# to setup access control for postgres user
+- name: install setfacl support
+  become: yes
   apt:
     pkg:
-      - postgresql
-      - postgresql-contrib
+      - acl
+      - python3-pip
+
+# to use with pg modules
+- name: "Install Python packages"
+  pip: "name={{ item }}  state=present"
+  with_items:
+    - psycopg2-binary
+
+- name: "Create app database"
+  become: true
+  become_user: postgres
+  postgresql_db:
+    state: present
+    name: "demo"
+
+- name: "Create db user"
+  postgresql_user:
+    state: present
+    name: "demo"
+    password: "123"
+  become: yes
+  become_user: postgres
+
+- name: "Grant db user access to app db"
+  postgresql_privs:
+    type: database
+    database: "demo"
+    roles: "demo"
+    grant_option: no
+    privs: all
+  become: yes
+  become_user: postgres
+
+- name: "Allow md5 connection for the db user"
+  become: yes
+  become_user: postgres
+  postgresql_pg_hba:
+    dest: "/etc/postgresql/12/main/pg_hba.conf"
+    contype: host
+    databases: all
+    method: md5
+    users: "demo"
+    create: true
+    address: all
+  notify: Restart-Postgresql
+
+# - name: pg running
+#   shell:
+#     cmd: "cat /etc/postgresql/12/main/pg_hba.conf"
+#   args:
+#     executable: /bin/bash
+#   become: yes
+#   register: output
+
+# - debug: msg="{{ output }}"
+
+- name: Restart-Postgresql
+  systemd:
+    state: restarted
+    name: postgresql
+    daemon_reload: yes
+
+
+
+# - name: pg running
+#   become: yes
+#   shell:
+#     cmd: "ls -a /etc/postgresql/12/main"
+#   args:
+#     executable: /bin/bash
+#   # systemd:
+#   #   state: started
+#   #   name: postgresql
+#   #   daemon_reload: yes
+#   register: output
+
+# - debug: msg="{{ output }}"
+
+
+
+# - name: Install postgresql
+#   apt:
+#     pkg:
+#       - postgresql
+#       - postgresql-contrib
+
+# - name: pg running
+#   systemd:
+#     state: started
+#     name: postgresql
+#     daemon_reload: yes
+#   register: output
+
+# - debug: msg="{{ output }}"
