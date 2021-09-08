@@ -1,23 +1,30 @@
-# to setup access control for postgres user
-- name: install setfacl support
-  become: yes
+# Install postgresql and install setfacl support to setup access control for postgres user
+- name: Install postgresql
   apt:
     pkg:
       - acl
       - python3-pip
+      - postgresql
+      - postgresql-contrib
+  become: yes
+
+# - name: install setfacl support
+#   become: yes
+#   apt:
+#     pkg:
 
 # to use with pg modules
-- name: "Install Python packages"
+- name: "Install Python packages to use pg modules"
   pip: "name={{ item }}  state=present"
   with_items:
     - psycopg2-binary
 
 - name: "Create app database"
-  become: true
   become_user: postgres
   postgresql_db:
     state: present
     name: "demo"
+  become: true
 
 - name: "Create db user"
   postgresql_user:
@@ -50,9 +57,25 @@
     address: all
   notify: Restart-Postgresql
 
-# - name: pg running
+- name: modify postgresql.conf to listen on all network interfaces
+  lineinfile:
+    path: /etc/postgresql/12/main/postgresql.conf
+    line: "listen_addresses = '*'"
+    insertbefore: BOF
+
+# - name: cat pg_hba.conf
 #   shell:
 #     cmd: "cat /etc/postgresql/12/main/pg_hba.conf"
+#   args:
+#     executable: /bin/bash
+#   become: yes
+#   register: output
+
+# - debug: msg="{{ output }}"
+
+# - name: cat postgresql.conf
+#   shell:
+#     cmd: "cat /etc/postgresql/12/main/postgresql.conf"
 #   args:
 #     executable: /bin/bash
 #   become: yes
@@ -65,9 +88,6 @@
     state: restarted
     name: postgresql
     daemon_reload: yes
-
-
-
 # - name: pg running
 #   become: yes
 #   shell:
@@ -81,8 +101,6 @@
 #   register: output
 
 # - debug: msg="{{ output }}"
-
-
 
 # - name: Install postgresql
 #   apt:
