@@ -4,7 +4,7 @@
     update_cache: yes
     cache_valid_time: 3600
 
-- name: Install a list of common dependancy packages 
+- name: Install a list of common dependancy packages
   apt:
     pkg:
       - apt-transport-https
