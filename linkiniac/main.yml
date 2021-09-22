@@ -1,6 +1,7 @@
 - become: yes
   hosts: all
   name: deploy-linkin
+  user: ubuntu
   roles:
     - common
     - docker

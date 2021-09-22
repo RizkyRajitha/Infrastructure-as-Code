@@ -31,7 +31,7 @@ setup log management with loki , promtail and grafana
 
 run linkin app via docker compose.
 
-`ansible-playbook main.yml -i hosts -u [username] --private-key [key.pem]`
+`ansible-playbook main.yml -i hosts  --extra-vars "@vars.yml" --private-key [key.pem]`
 
 access `prometheus` - `http://[ip]/prometheus`
 
@@ -48,6 +48,10 @@ loadtest with `ab script`
 ```bash
 ./loadtest.sh
 ```
+
+todo : use k6 load testing
+
+setup crontab to backup pg https://docs.ansible.com/ansible/latest/collections/ansible/builtin/cron_module.html
 
 <!-- add postgres monitorung grafana
 
