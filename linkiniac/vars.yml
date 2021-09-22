@@ -1,0 +1,9 @@
+# in the above example, this would be vars/external_vars.yml
+somevar: somevalue
+password: magic
+DATABASE_URL: postgres://linkin:linkin123@db:5432/linkin
+HASHSALT: 123
+NODE_ENV: production
+POSTGRES_DB: linkin
+POSTGRES_USER: linkin
+POSTGRES_PASSWORD: linkin123
