@@ -31,13 +31,21 @@ setup log management with loki , promtail and grafana
 
 run linkin app via docker compose.
 
-`ansible-playbook main.yml -i hosts  --extra-vars "@vars.yml" --private-key [key.pem]`
+`ansible-playbook main.yml -i hosts --extra-vars "@vars.yml" --private-key [key.pem]`
 
 access `prometheus` - `http://[ip]/prometheus`
 
 access `grafana` - `http://[ip]/grafana` ex - `http://34.206.1.42/grafana/`
 
-loadtest with `ab`
+#### loadtesting
+
+load testing carried out using k6.
+
+[test](./loadtest/) dir
+
+![k6](k6testing.png)
+
+<!-- loadtest with `ab`
 
 ```bash
 ab -v 4 -n 50 -c 4 -p post -T "application/json"  http://34.201.6.138/api/login
@@ -47,7 +55,7 @@ loadtest with `ab script`
 
 ```bash
 ./loadtest.sh
-```
+``` -->
 
 todo : use k6 load testing
 
@@ -67,7 +75,7 @@ graph?g0.expr=100%20-%20rate(node_cpu_seconds_total%5B30s%5D)%20*%20100&g0.tab=0
 
 #### architecture
 
-![architecture](diagram.png)
+![architecture](diagramv2.png)
 
 #### Grafana Dashbaord
 
