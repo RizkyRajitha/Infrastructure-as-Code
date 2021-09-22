@@ -1,13 +1,15 @@
 - name: Copy docker-compose.yml
-  copy:
-    src: templates/docker-compose.yml
-    dest: /home/ubuntu
+  template:
+    src: templates/docker-compose.yml.j2
+    dest: /home/ubuntu/docker-compose.yml
 
 - name: docker compose up
   docker_compose:
     project_src: /home/ubuntu
   register: output
 
-- debug: msg="{{ output }}"
+# - debug: msg="{{ output }}"
+# - debug: msg="{{ POSTGRES_USER }}"
+# - debug: msg="{{ DATABASE_URL }}"
 
 - meta: end_play
