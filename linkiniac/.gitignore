@@ -41,3 +41,5 @@ terraform.tfstate
 keys
 
 *.log
+
+test.json
