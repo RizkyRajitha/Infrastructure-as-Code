@@ -1,0 +1,9 @@
+- name: Install openjdk-11-jdk
+  apt:
+    name: openjdk-11-jdk
+
+- name: java version check
+  command: "java -version"
+  register: output
+
+- debug: msg="{{ output }}"

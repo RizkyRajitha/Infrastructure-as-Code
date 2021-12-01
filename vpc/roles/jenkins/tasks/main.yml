@@ -1,0 +1,25 @@
+- name: jenkins key setup
+  apt_key:
+    url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+    state: present
+
+- name: add jenkins apt repository
+  apt_repository:
+    repo: deb https://pkg.jenkins.io/debian-stable binary/
+    update_cache: yes
+    state: present
+
+- name: Update repositories cache
+  apt:
+    update_cache: yes
+
+- name: Install jenkins
+  apt:
+    name: jenkins
+
+- name: Start jenkins
+  systemd:
+    state: started
+    name: jenkins
+    enabled: yes
+    daemon_reload: yes

@@ -10,6 +10,12 @@ variable "public_instance_name" {
   default     = "iacdemoec2public"
 }
 
+variable "jenkins_instance_name" {
+  description = "name of the instance"
+  type        = string
+  default     = "jenkins server"
+}
+
 variable "region" {
   description = "region of the resources"
   type        = string

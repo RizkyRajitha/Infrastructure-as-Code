@@ -1,17 +1,29 @@
-- become: yes
-  hosts: development
-  name: setup-pg
-  roles:
-    # - docker
-    # - docker-compose
-    - common
-    - postgres
+# - become: yes
+#   hosts: development
+#   name: setup-pg
+#   roles:
+#     # - docker
+#     # - docker-compose
+#     - common
+#     - postgres
+
+# - become: yes
+#   hosts: bastion
+#   name: deploy-linkin
+#   user: ubuntu
+#   roles:
+# - common
+# - docker
+# - nginx
+# - linkin
 
 - become: yes
-  hosts: bastion
-  name: deploy-linkin
+  hosts: jenkins # jenkins server
+  name: deploy-jenkins-ci-server
+  user: ubuntu
   roles:
-    - common
-    - docker
+    # - common
+    # - docker
+    # - java
+    # - jenkins
     - nginx
-    - linkin
