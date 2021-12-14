@@ -22,8 +22,8 @@
   name: deploy-jenkins-ci-server
   user: ubuntu
   roles:
-    # - common
+    - common
     # - docker
-    # - java
-    # - jenkins
+    - java
+    - jenkins
     - nginx

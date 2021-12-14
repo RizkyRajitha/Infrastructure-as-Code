@@ -57,9 +57,7 @@ loadtest with `ab script`
 ./loadtest.sh
 ``` -->
 
-todo : use k6 load testing
-
-setup crontab to backup pg https://docs.ansible.com/ansible/latest/collections/ansible/builtin/cron_module.html
+<!-- todo : use k6 load testing -->
 
 <!-- add postgres monitorung grafana
 

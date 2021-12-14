@@ -68,7 +68,12 @@ ssh key and bastion redirects are loaded from the ssh config and ansible config
 todo : 
    use vars for database url , names ect.
    setup promethous nad grafana
-   setup postgres data in separate ebs
+   setup postgres data in separate ebs https://www.digitalocean.com/community/tutorials/how-to-move-a-postgresql-data-directory-to-a-new-location-on-ubuntu-18-04
+
+
+
+setup crontab to backup pg https://docs.ansible.com/ansible/latest/collections/ansible/builtin/cron_module.htmll
+
 
 <!-- install postgres on private subnet ec2 -->
 
